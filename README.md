@@ -10,3 +10,6 @@ pip install -r requirements.txt
 
 1. Download the embedding file from https://nlp.stanford.edu/data/glove.6B.zip.
 2. Extract the zip file and copy the file glove.6B.50d.txt to the SAME directory as the notebook.
+
+
+If N-Gram code takes a long time, please run the separate N-gram code file
