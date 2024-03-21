@@ -80,13 +80,13 @@ async def fulfillment(request: Request):
         fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     elif intent_name == "Region_Intent":
-        region = payload["queryResult"]["parameters"]["Region_Indicators"][0]
+        region = payload["queryResult"]["parameters"]["Region_Indicators"]
         qs = db.query(Beer).filter(func.lower(Beer.region) == region.lower())
         beer_names.extend([beer.name for beer in qs])
         fulfillment_message = payload["queryResult"]["fulfillmentText"]
-
+        
     elif intent_name == "SeasonWeather_Intent":
-        season = payload["queryResult"]["parameters"]["Season_Indicators"][0]
+        season = payload["queryResult"]["parameters"]["Season_Indicators"]
         qs = db.query(Beer).filter(func.lower(Beer.season) == season.lower())
         beer_names.extend([beer.name for beer in qs])
         fulfillment_message = payload["queryResult"]["fulfillmentText"]
