@@ -62,19 +62,19 @@ async def fulfillment(request: Request):
         elif rating_indicator.lower().strip() == "good":
             qs = (
                 db.query(Beer)
-                .filter(and_(Beer.rating_indicator < 9.0, Beer.alcohol_content >= 7.0))
+                .filter(and_(Beer.user_rating < 9.0, Beer.user_rating >= 7.0))
                 .all()
             )
             beer_names.extend([beer.name for beer in qs])
         elif rating_indicator.lower().strip() == "average":
             qs = (
                 db.query(Beer)
-                .filter(and_(Beer.rating_indicator < 7.0, Beer.alcohol_content >= 5.0))
+                .filter(and_(Beer.user_rating < 7.0, Beer.user_rating >= 5.0))
                 .all()
             )
             beer_names.extend([beer.name for beer in qs])
         else:
-            qs = db.query(Beer).filter(Beer.alcohol_content < 5.0).all()
+            qs = db.query(Beer).filter(Beer.user_rating < 5.0).all()
             beer_names.extend([beer.name for beer in qs])
 
     elif intent_name == "Region_Intent":
