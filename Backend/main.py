@@ -26,6 +26,8 @@ async def fulfillment(request: Request):
     print(intent_name)
     beer_names = []
 
+    fulfillment_message = payload["queryResult"]["fulfillmentText"]
+
     if intent_name == "AlcoholContent_Intent":
         alcohol_level = payload["queryResult"]["parameters"]["alcohol_level_indicators"]
         if "high alcohol" in alcohol_level:
@@ -41,19 +43,16 @@ async def fulfillment(request: Request):
         else:
             qs = db.query(Beer).filter(Beer.alcohol_content < 4.0).all()
             beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     elif intent_name == "Flavor_intent":
         flavor = payload["queryResult"]["parameters"]["flavor_indicator"]
         qs = db.query(Beer).filter(func.lower(Beer.flavor) == flavor.lower())
         beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     elif intent_name == "Packing_intent":
         packing = payload["queryResult"]["parameters"]["Packing_indicators"][0]
         qs = db.query(Beer).filter(func.lower(Beer.packing) == packing.lower())
         beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     elif intent_name == "Rating_intent":
         rating_indicator = payload["queryResult"]["parameters"]["user_rating_indicator"]
@@ -77,19 +76,16 @@ async def fulfillment(request: Request):
         else:
             qs = db.query(Beer).filter(Beer.alcohol_content < 5.0).all()
             beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     elif intent_name == "Region_Intent":
         region = payload["queryResult"]["parameters"]["Region_Indicators"]
         qs = db.query(Beer).filter(func.lower(Beer.region) == region.lower())
         beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
-        
+
     elif intent_name == "SeasonWeather_Intent":
         season = payload["queryResult"]["parameters"]["Season_Indicators"]
         qs = db.query(Beer).filter(func.lower(Beer.season) == season.lower())
         beer_names.extend([beer.name for beer in qs])
-        fulfillment_message = payload["queryResult"]["fulfillmentText"]
 
     beers = ", ".join(beer_names)
     return JSONResponse(
